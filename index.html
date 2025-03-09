@@ -75,7 +75,7 @@
 
   <label>
     Background:
-    <input id="bg" type="text" value="#C2C">
+    <input id="bg" type="text" value="#C2C"> 
   </label>
 
   <label>
@@ -91,8 +91,10 @@
   <label>
     Fill type:
     <select id='fillType' name="fillType">
-      <option>scale_to_fit</option>
+      <!-- Change from scale to fit to fill -->
       <option>fill</option>
+      <option>scale_to_fit</option>
+      <!-- End change -->
     </select>
   </label>
 
@@ -101,8 +103,10 @@
   </label>
 
   <label>
-    Threshold: <input type="radio" value="threshold" name="filter" checked>
-    Color: <input type="radio" value="color" name="filter">
+      <!-- Make Color priotized -->
+    Threshold: <input type="radio" value="threshold" name="filter">
+    Color: <input type="radio" value="color" name="filter" checked>
+      <!-- end change -->
   </label>
 
   <div class="group">
@@ -120,14 +124,17 @@
   <script>
     $(document).ready(function () {
       var value = 'https://github.com/kciter/qart.js';
-      var filter = 'threshold';
+      // make color prioritized
+      var filter = 'color';
+      // end change
       var imagePath = './example.png';
       var version = 10;
       var imageSize = 75 + (version * 12) - 24;
       var bg = "#C2C";
       var size = "175";
-      var fillType = 'scale_to_fit';
-
+      // change to fill by default
+      var fillType = 'fill';
+      // end change
       var self = this;
 
       $('#image img').width(imageSize);
@@ -206,6 +213,25 @@
           makeQArt();
         });
       });
+      // CHANGE = allow for pasting images
+      document.body.onpaste = (e) => {
+        let cd = e.clipboardData;
+        let imageF = null;
+         for (let i = 0; i < cd.items.length; i++) {
+             imageF = cd.items[i].getAsFile();
+             if (imageF) break;
+        }
+        if (!imageF) return alert("failed to load image from clipboard");
+
+        getBase64(imageF, function (base64Img) {
+          var regex = /data:(.*);base64,(.*)/gm;
+          var parts = regex.exec(base64Img);
+          imagePath = parts[0];
+          $('#image img').attr('src', imagePath);
+          makeQArt();
+        });
+      }
+      // ENDCHANGE
 
       $('input[type=radio]').click(function () {
         filter = $(this).val();
