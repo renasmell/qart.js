@@ -5,117 +5,150 @@
   <title>QArt.js Example</title>
   <style>
     body {
+      font-family: sans-serif;
       width: 100%;
-      padding: 0;
-      background-color: #FFFFF6;
+      padding: 20px;
+      background-color: #383827;
+      color: #eee; /* Light text for better contrast */
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
 
-    h1,
-    h2 {
+    h1, h2 {
       text-align: center;
     }
 
-    input[type=text] {
-      display: block;
-      width: 380px;
-      height: 30px;
-      margin: 0 auto;
-      font-size: 14pt;
-    }
-
-    input[type=number] {
-      display: block;
-      width: 380px;
-      height: 30px;
-      margin: 0 auto;
-      font-size: 14pt;
-    }
-
-    input[type=file] {
-      display: block;
-      width: 380px;
-      height: 30px;
-      margin: 0 auto;
+    /* Container for the form and output */
+    .container {
+      background-color: #282817; /* Slightly darker background for container */
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+      max-width: 800px;
+      width: 100%;
     }
 
     label {
       display: block;
-      width: 380px;
-      margin: 10px auto;
+      margin-bottom: 10px;
     }
 
-    .group {
+    input[type="text"],
+    input[type="number"],
+    textarea {
+      width: calc(100% - 22px); /* Adjust for padding */
+      padding: 8px;
+      margin-bottom: 10px;
+      border: 1px solid #555;
+      border-radius: 4px;
+      box-sizing: border-box;
+      font-size: 1rem;
+      background-color: #181807; /* Darker background for inputs */
+      color: #eee;
+    }
+
+    select,
+    input[type="file"] {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 10px;
+      border: 1px solid #555;
+      border-radius: 4px;
+      box-sizing: border-box;
+      font-size: 1rem;
+      background-color: #181807;
+      color: #eee;
+    }
+
+    /* Style the file input */
+    input[type="file"] {
+      /* Add your desired styles here */
+    }
+
+    /* Group radio buttons */
+    .radio-group {
       display: flex;
       align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .radio-group label {
+      margin-right: 15px;
+    }
+
+    /* Output display */
+    .output {
+      display: flex;
       justify-content: center;
+      align-items: center;
+      margin-top: 20px;
     }
 
-    .clear {
-      clear: both;
+    #qr, #combine {
+      margin: 10px;
+      border: 1px solid #555;
+      border-radius: 4px;
     }
 
-    #qr {
-      margin: 5px;
-    }
+    /* Responsive design */
+    @media (max-width: 600px) {
+      .container {
+        padding: 10px;
+      }
 
-    #image {
-      margin: 5px;
+      input[type="text"],
+      input[type="number"],
+      textarea {
+        font-size: 0.9rem;
+      }
     }
   </style>
 </head>
-
 <body>
-  <h1>QArt.js</h1>
+  <div class="container">
+    <h1>QArt.js</h1>
 
-  <h2>From</h2>
-  <label>
-    Value:
-    <textarea id="value" type="text" rows="3" cols="45">https://github.com/kciter/qart.js</textarea>
-  </label>
+    <h2>From</h2>
+    <label for="value">Value:</label>
+    <textarea id="value" rows="3" cols="45">https://github.com/kciter/qart.js</textarea>
 
-  <label>
-    Background:
-    <input id="bg" type="text" value="#C2C"> 
-  </label>
+    <label for="bg">Background:</label>
+    <input id="bg" type="text" value="#C2C">
 
-  <label>
-    Size:
+    <label for="size">Size:</label>
     <input id="size" type="number" value="195">
-  </label>
 
-  <label>
-    Version:
+    <label for="version">Version:</label>
     <input id="version" type="number" value="10">
-  </label>
 
-  <label>
-    Fill type:
-    <select id='fillType' name="fillType">
-      <!-- Change from scale to fit to fill -->
-      <option>fill</option>
-      <option>scale_to_fit</option>
-      <!-- End change -->
+    <label for="fillType">Fill type:</label>
+    <select id="fillType" name="fillType">
+      <option value="fill">Fill</option>
+      <option value="scale_to_fit">Scale to fit</option>
     </select>
-  </label>
 
-  <label>
+    <label for="file">Image:</label>
     <input id="file" type="file">
-  </label>
 
-  <label>
-      <!-- Make Color priotized -->
-    Threshold: <input type="radio" value="threshold" name="filter">
-    Color: <input type="radio" value="color" name="filter" checked>
-      <!-- end change -->
-  </label>
+    <div class="radio-group">
+      <label>
+        Threshold: <input type="radio" value="threshold" name="filter">
+      </label>
+      <label>
+        Color: <input type="radio" value="color" name="filter" checked>
+      </label>
+    </div>
 
-  <div class="group">
-    <div id="qr"></div>
-    <div id="image"><img src="./example.png" width="171"></div>
-  </div>
-  <h2>To</h2>
-  <div class="group">
-    <div id="combine"></div>
+    <div class="output">
+      <div id="qr"></div>
+      <div id="image"><img src="./example.png" width="171"></div>
+    </div>
+
+    <h2>To</h2>
+    <div class="output">
+      <div id="combine"></div>
+    </div>
   </div>
 
   <script src="./qrcode.js"></script>
